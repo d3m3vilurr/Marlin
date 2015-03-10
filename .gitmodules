@@ -1,0 +1,6 @@
+[submodule "lib/LiquidTWI2"]
+	path = lib/LiquidTWI2
+	url = https://github.com/lincomatic/LiquidTWI2.git
+[submodule "lib/LiquidCrystal_I2C"]
+	path = lib/LiquidCrystal_I2C
+	url = https://github.com/kiyoshigawa/LiquidCrystal_I2C.git
