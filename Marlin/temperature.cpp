@@ -90,6 +90,7 @@ int target_temperature_bed = 0;
 int current_temperature_raw[EXTRUDERS] = { 0 };
 float current_temperature[EXTRUDERS] = { 0.0 };
 int current_temperature_bed_raw = 0;
+int raw_temp_bed_sample = 0;
 float current_temperature_bed = 0.0;
 #ifdef TEMP_SENSOR_1_AS_REDUNDANT
   int redundant_temperature_raw = 0;
@@ -1472,7 +1473,8 @@ ISR(TIMER0_COMPB_vect) {
       break;
     case MeasureTemp_BED:
       #if HAS_TEMP_BED
-        raw_temp_bed_value += ADC;
+        raw_temp_bed_sample = ADC;
+        raw_temp_bed_value += raw_temp_bed_sample;
       #endif
       temp_state = PrepareTemp_1;
       break;

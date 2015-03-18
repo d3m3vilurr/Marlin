@@ -47,6 +47,7 @@ extern float current_temperature[EXTRUDERS];
   extern int current_temperature_raw[EXTRUDERS];
   extern int current_temperature_bed_raw;
 #endif
+extern int raw_temp_bed_sample;
 extern int target_temperature_bed;
 extern float current_temperature_bed;
 #ifdef TEMP_SENSOR_1_AS_REDUNDANT
@@ -93,6 +94,7 @@ FORCE_INLINE float degBed() { return current_temperature_bed; }
   FORCE_INLINE float rawBedTemp() { return current_temperature_bed_raw; }
 #endif
 
+FORCE_INLINE int rawBedSample() { return raw_temp_bed_sample; }
 FORCE_INLINE float degTargetHotend(uint8_t extruder) { return target_temperature[extruder]; }
 FORCE_INLINE float degTargetBed() { return target_temperature_bed; }
 

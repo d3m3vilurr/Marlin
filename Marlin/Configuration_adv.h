@@ -42,7 +42,7 @@
 
 //Show Temperature ADC value
 //The M105 command return, besides traditional information, the ADC value read from temperature sensors.
-//#define SHOW_TEMP_ADC_VALUES
+#define SHOW_TEMP_ADC_VALUES
 
 //  extruder run-out prevention.
 //if the machine is idle, and the temperature over MINTEMP, every couple of SECONDS some filament is extruded
@@ -418,7 +418,7 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #if defined SDSUPPORT
   #define BLOCK_BUFFER_SIZE 16   // SD,LCD,Buttons take more memory, block buffer needs to be smaller
 #else
-  #define BLOCK_BUFFER_SIZE 16 // maximize block buffer
+  #define BLOCK_BUFFER_SIZE 64 // maximize block buffer
 #endif
 
 
@@ -613,7 +613,7 @@ const unsigned int dropsegments=5; //everything with less than this number of st
   #endif
 
   #if defined(Z_PROBE_REPEATABILITY_TEST)
-    #error "Z-probe repeatability test is not supported on Deltas yet."
+    //#error "Z-probe repeatability test is not supported on Deltas yet."
   #endif
 
 #endif  

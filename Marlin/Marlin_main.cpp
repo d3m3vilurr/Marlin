@@ -1137,9 +1137,33 @@ static void set_bed_level_equation_3pts(float z_at_pt_1, float z_at_pt_2, float 
 
 #endif // AUTO_BED_LEVELING_GRID
 
+bool touching_print_surface(int threshold) {
+  return rawBedSample() < threshold;
+}
+
 static void run_z_probe() {
-  #ifdef DELTA
-    
+#ifdef DELTA
+  #ifdef FSR_BED_LEVELING
+    feedrate = 600; //mm/min
+    float step = 0.05;
+    int direction = -1;
+    // Consider the glass touched if the raw ADC value is reduced by 5% or more.
+    int analog_fsr_untouched = rawBedSample();
+    int threshold = analog_fsr_untouched * 95L / 100;
+    while (!touching_print_surface(threshold)) {
+      destination[Z_AXIS] += step * direction;
+      prepare_move_raw();
+      st_synchronize();
+    }
+    while (step > 0.005) {
+      step *= 0.8;
+      feedrate *= 0.8;
+      direction = touching_print_surface(threshold) ? 1 : -1;
+      destination[Z_AXIS] += step * direction;
+      prepare_move_raw();
+      st_synchronize();
+    }
+  #else
     float start_z = current_position[Z_AXIS];
     long start_steps = st_get_position(Z_AXIS);
   
@@ -1156,8 +1180,9 @@ static void run_z_probe() {
     current_position[Z_AXIS] = mm;
     calculate_delta(current_position);
     plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS]);
+  #endif
     
-  #else
+#else
 
     plan_bed_level_matrix.set_to_identity();
     feedrate = homing_feedrate[Z_AXIS];
@@ -1243,7 +1268,9 @@ static void setup_for_endstop_move() {
     feedmultiply = 100;
     previous_millis_cmd = millis();
 
+#ifndef DELTA
     enable_endstops(true);
+#endif //Delta printers enable endstops only during Z probe down move.
 }
 
 static void clean_up_after_endstop_move() {
@@ -1258,6 +1285,10 @@ static void clean_up_after_endstop_move() {
 
 static void engage_z_probe() {
   // Engage Z Servo endstop if enabled
+  #ifdef FSR_BED_LEVELING
+    return;
+  #endif
+
   #ifdef SERVO_ENDSTOPS
     if (servo_endstops[Z_AXIS] > -1) {
       #if SERVO_LEVELING
@@ -1307,6 +1338,10 @@ static void engage_z_probe() {
 
 static void retract_z_probe() {
   // Retract Z Servo endstop if enabled
+  #ifdef FSR_BED_LEVELING
+    return;
+  #endif
+
   #ifdef SERVO_ENDSTOPS
     if (servo_endstops[Z_AXIS] > -1) {
       #if SERVO_LEVELING
@@ -1390,6 +1425,10 @@ static float probe_pt(float x, float y, float z_before, ProbeAction retract_acti
     SERIAL_PROTOCOL(y + 0.0001);
     SERIAL_PROTOCOLPGM(" Z: ");
     SERIAL_PROTOCOL(measured_z + 0.0001);
+  #ifdef FSR_BED_LEVELING
+    SERIAL_PROTOCOLPGM(" FSR: ");
+    SERIAL_PROTOCOL(rawBedSample());
+  #endif
     SERIAL_EOL;
   }
   return measured_z;
@@ -1453,6 +1492,61 @@ void reset_bed_level() {
 
 #endif // ENABLE_AUTO_BED_LEVELING
 
+#ifdef NONLINEAR_BED_LEVELING
+static void extrapolate_one_point(int x, int y, int xdir, int ydir) {
+  if (bed_level[x][y] != 0.0) {
+    return;  // Don't overwrite good values.
+  }
+  float a = 2*bed_level[x+xdir][y] - bed_level[x+xdir*2][y];  // Left to right.
+  float b = 2*bed_level[x][y+ydir] - bed_level[x][y+ydir*2];  // Front to back.
+  float c = 2*bed_level[x+xdir][y+ydir] - bed_level[x+xdir*2][y+ydir*2];  // Diagonal.
+  float median = c;  // Median is robust (ignores outliers).
+  if (a < b) {
+    if (b < c) median = b;
+    if (c < a) median = a;
+  } else {  // b <= a
+    if (c < b) median = b;
+    if (a < c) median = a;
+  }
+  bed_level[x][y] = median;
+}
+
+// Fill in the unprobed points (corners of circular print surface)
+// using linear extrapolation, away from the center.
+static void extrapolate_unprobed_bed_level() {
+  int half = (AUTO_BED_LEVELING_GRID_POINTS-1)/2;
+  for (int y = 0; y <= half; y++) {
+    for (int x = 0; x <= half; x++) {
+      if (x + y < 3) continue;
+      extrapolate_one_point(half-x, half-y, x>1?+1:0, y>1?+1:0);
+      extrapolate_one_point(half+x, half-y, x>1?-1:0, y>1?+1:0);
+      extrapolate_one_point(half-x, half+y, x>1?+1:0, y>1?-1:0);
+      extrapolate_one_point(half+x, half+y, x>1?-1:0, y>1?-1:0);
+    }
+  }
+}
+
+// Print calibration results for plotting or manual frame adjustment.
+static void print_bed_level() {
+  for (int y = 0; y < AUTO_BED_LEVELING_GRID_POINTS; y++) {
+    for (int x = 0; x < AUTO_BED_LEVELING_GRID_POINTS; x++) {
+      SERIAL_PROTOCOL_F(bed_level[x][y], 2);
+      SERIAL_PROTOCOLPGM(" ");
+    }
+    SERIAL_ECHOLN("");
+  }
+}
+
+// Reset calibration results to zero.
+static void reset_bed_level() {
+  for (int y = 0; y < AUTO_BED_LEVELING_GRID_POINTS; y++) {
+    for (int x = 0; x < AUTO_BED_LEVELING_GRID_POINTS; x++) {
+      bed_level[x][y] = 0.0;
+    }
+  }
+}
+#endif //NONLINEAR_BED_LEVELING
+
 static void homeaxis(int axis) {
 #define HOMEAXIS_DO(LETTER) \
   ((LETTER##_MIN_PIN > -1 && LETTER##_HOME_DIR==-1) || (LETTER##_MAX_PIN > -1 && LETTER##_HOME_DIR==1))
@@ -1485,16 +1579,21 @@ static void homeaxis(int axis) {
       }
     #endif
 #endif // Z_PROBE_SLED
+
+    current_position[axis] = 0;
+    plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
     destination[axis] = 1.5 * max_length(axis) * axis_home_dir;
     feedrate = homing_feedrate[axis];
     plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder);
     st_synchronize();
 
+    enable_endstops(false);  // Ignore Z probe while moving away from the top microswitch.
     current_position[axis] = 0;
     plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
     destination[axis] = -home_retract_mm(axis) * axis_home_dir;
     plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder);
     st_synchronize();
+    enable_endstops(true);  // Stop ignoring Z probe while moving up to the top microswitch again.
 
     destination[axis] = 2*home_retract_mm(axis) * axis_home_dir;
 
@@ -5340,6 +5439,9 @@ for (int s = 1; s <= steps; s++) {
       destination[i] = current_position[i] + difference[i] * fraction;
     }
     calculate_delta(destination);
+    #ifdef NONLINEAR_BED_LEVELING
+      adjust_delta(destination);
+    #endif
     plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS],
                      destination[E_AXIS], feedrate*feedmultiply/60/100.0,
                      active_extruder);
