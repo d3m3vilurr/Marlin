@@ -108,10 +108,11 @@ Here are some standard links for getting your machine calibrated:
 #define DELTA_CARRIAGE_OFFSET 33.45 // mm
 
 // Horizontal distance bridged by diagonal push rods when effector is centered.
-#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
+//#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
+#define DELTA_RADIUS 106
 
 // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-#define DELTA_PRINTABLE_RADIUS 95 // 105
+#define DELTA_PRINTABLE_RADIUS 100 // 105
 
 // Effective X/Y positions of the three vertical towers.
 #define SIN_60 0.8660254037844386
@@ -168,7 +169,7 @@ Here are some standard links for getting your machine calibrated:
 //     #define DUMMY_THERMISTOR_998_VALUE 25
 //     #define DUMMY_THERMISTOR_999_VALUE 100
 
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -248,9 +249,9 @@ Here are some standard links for getting your machine calibrated:
 //    #define  DEFAULT_Kd 440
 //
 // K800
-    #define  DEFAULT_Kp 17.78
-    #define  DEFAULT_Ki 0.94
-    #define  DEFAULT_Kd 84.31
+    #define  DEFAULT_Kp 20.92
+    #define  DEFAULT_Ki 1.11
+    #define  DEFAULT_Kd 98.72
 #endif // PIDTEMP
 
 //===========================================================================
@@ -459,7 +460,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
   // X and Y offsets must be integers
   #define X_PROBE_OFFSET_FROM_EXTRUDER 0     // -left  +right
   #define Y_PROBE_OFFSET_FROM_EXTRUDER 0     // -front +behind
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.1   // -below (always!)
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.4   // -below (always!)
 
   #define Z_RAISE_BEFORE_HOMING 15       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -526,7 +527,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // For deltabots this means top and center of the Cartesian print volume.
 #define MANUAL_X_HOME_POS 0
 #define MANUAL_Y_HOME_POS 0
-#define MANUAL_Z_HOME_POS 285 // For delta: Distance between nozzle and print surface after homing.
+#define MANUAL_Z_HOME_POS 296.6 // For delta: Distance between nozzle and print surface after homing.
 
 //// MOVEMENT SETTINGS
 #define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
@@ -581,7 +582,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 //#define EEPROM_CHITCHAT
 
 // Preheat Constants
-#define PLA_PREHEAT_HOTEND_TEMP 190  // Current J-Head thermistor reads hot
+#define PLA_PREHEAT_HOTEND_TEMP 210  // Current J-Head thermistor reads hot
 #define PLA_PREHEAT_HPB_TEMP 70
 #define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
