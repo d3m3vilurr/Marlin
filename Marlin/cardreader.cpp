@@ -489,7 +489,7 @@ void CardReader::updir() {
   if (workDirDepth > 0) {
     --workDirDepth;
     workDir = workDirParents[0];
-    for (int d = 0; d < workDirDepth; d++)
+    for (uint16_t d = 0; d < workDirDepth; d++)
       workDirParents[d] = workDirParents[d+1];
   }
 }
@@ -504,7 +504,6 @@ void CardReader::printingHasFinished() {
     startFileprint();
   }
   else {
-    quickStop();
     file.close();
     sdprinting = false;
     if (SD_FINISHED_STEPPERRELEASE) {
