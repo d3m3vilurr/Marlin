@@ -5245,6 +5245,9 @@ void clamp_to_software_endstops(float target[3])
         if (Z_PROBE_OFFSET_FROM_EXTRUDER < 0) negative_z_offset = negative_z_offset + Z_PROBE_OFFSET_FROM_EXTRUDER;
       #endif
       if (home_offset[Z_AXIS] < 0) negative_z_offset = negative_z_offset + home_offset[Z_AXIS];
+      #ifdef FSR_BED_LEVELING
+      else negative_z_offset = negative_z_offset - home_offset[Z_AXIS];
+      #endif
     #endif
 
     if (target[Z_AXIS] < min_pos[Z_AXIS]+negative_z_offset) target[Z_AXIS] = min_pos[Z_AXIS]+negative_z_offset;
