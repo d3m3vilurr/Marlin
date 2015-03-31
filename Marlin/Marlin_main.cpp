@@ -1221,7 +1221,9 @@ inline void sync_plan_position() {
     saved_feedmultiply = feedmultiply;
     feedmultiply = 100;
     previous_millis_cmd = millis();
+    #ifndef FSR_BED_LEVELING
     enable_endstops(true);
+    #endif
   }
 
   static void clean_up_after_endstop_move() {
@@ -2361,7 +2363,7 @@ inline void gcode_G28() {
 
           // raise extruder
           float measured_z,
-                z_before = Z_RAISE_BETWEEN_PROBINGS + (probePointCounter ? current_position[Z_AXIS] : 0);
+                z_before = Z_RAISE_BETWEEN_PROBINGS + (probePointCounter ? current_position[Z_AXIS] : Z_RAISE_BEFORE_PROBING);
 
           #ifdef DELTA
             // Avoid probing the corners (outside the round or hexagon print surface) on a delta printer.
