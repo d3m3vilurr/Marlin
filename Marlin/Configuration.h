@@ -72,6 +72,12 @@ Here are some standard links for getting your machine calibrated:
 // This defines the number of extruders
 #define EXTRUDERS 1
 
+// Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
+// The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
+// For the other hotends it is their distance from the extruder 0 hotend.
+//#define EXTRUDER_OFFSET_X {0.0, 20.00} // (in mm) for each extruder, offset of the hotend on the X axis
+//#define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
+
 //// The following define selects which power supply you have. Please choose the one that matches your setup
 // 1 = ATX
 // 2 = X-Box 360 203Watts (the blue wire connected to PS_ON and the red wire to VCC)
@@ -150,7 +156,7 @@ Here are some standard links for getting your machine calibrated:
 // 10 is 100k RS thermistor 198-961 (4.7k pullup)
 // 11 is 100k beta 3950 1% thermistor (4.7k pullup)
 // 12 is 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup) (calibrated for Makibox hot bed)
-// 13 is 100k Hisens 3950  1% up to 300°C for hotend "Simple ONE " & "Hotend "All In ONE" 
+// 13 is 100k Hisens 3950  1% up to 300°C for hotend "Simple ONE " & "Hotend "All In ONE"
 // 20 is the PT100 circuit found in the Ultimainboard V2.x
 // 60 is 100k Maker's Tool Works Kapton Bed Thermistor beta=3950
 //
@@ -164,7 +170,7 @@ Here are some standard links for getting your machine calibrated:
 // 1010 is Pt1000 with 1k pullup (non standard)
 // 147 is Pt100 with 4k7 pullup
 // 110 is Pt100 with 1k pullup (non standard)
-// 998 and 999 are Dummy Tables. They will ALWAYS read 25°C or the temperature defined below. 
+// 998 and 999 are Dummy Tables. They will ALWAYS read 25°C or the temperature defined below.
 //     Use it for Testing or Development purposes. NEVER for production machine.
 //     #define DUMMY_THERMISTOR_998_VALUE 25
 //     #define DUMMY_THERMISTOR_999_VALUE 100
@@ -315,15 +321,15 @@ The issue: If a thermistor come off, it will read a lower temperature than actua
 The system will turn the heater on forever, burning up the filament and anything
 else around.
 
-After the temperature reaches the target for the first time, this feature will 
-start measuring for how long the current temperature stays below the target 
+After the temperature reaches the target for the first time, this feature will
+start measuring for how long the current temperature stays below the target
 minus _HYSTERESIS (set_temperature - THERMAL_RUNAWAY_PROTECTION_HYSTERESIS).
 
 If it stays longer than _PERIOD, it means the thermistor temperature
 cannot catch up with the target, so something *may be* wrong. Then, to be on the
 safe side, the system will he halt.
 
-Bear in mind the count down will just start AFTER the first time the 
+Bear in mind the count down will just start AFTER the first time the
 thermistor temperature is over the target, so you will have no problem if
 your extruder heater takes 2 minutes to hit the target on heating.
 
@@ -366,16 +372,7 @@ your extruder heater takes 2 minutes to hit the target on heating.
   // #define ENDSTOPPULLUP_ZMIN
 #endif
 
-#ifdef ENDSTOPPULLUPS
-  #define ENDSTOPPULLUP_XMAX
-  #define ENDSTOPPULLUP_YMAX
-  #define ENDSTOPPULLUP_ZMAX
-  #define ENDSTOPPULLUP_XMIN
-  #define ENDSTOPPULLUP_YMIN
-  #define ENDSTOPPULLUP_ZMIN
-#endif
-
-// The pullups are needed if you directly connect a mechanical endswitch between the signal and ground pins.
+// Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 const bool X_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
 const bool Y_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
 const bool Z_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
@@ -398,14 +395,14 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define DISABLE_E false // For all extruders
 #define DISABLE_INACTIVE_EXTRUDER true //disable only inactive extruders and keep active extruder enabled
 
+// Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
 #define INVERT_X_DIR false // DELTA does not invert
 #define INVERT_Y_DIR false
 #define INVERT_Z_DIR false
-
-#define INVERT_E0_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
-#define INVERT_E1_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
-#define INVERT_E2_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
-#define INVERT_E3_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
+#define INVERT_E0_DIR false
+#define INVERT_E1_DIR false
+#define INVERT_E2_DIR false
+#define INVERT_E3_DIR false
 
 // ENDSTOP SETTINGS:
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
@@ -462,6 +459,19 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
+  // There are 2 different ways to specify probing locations
+  //
+  // - "grid" mode
+  //   Probe several points in a rectangular grid.
+  //   You specify the rectangle and the density of sample points.
+  //   This mode is preferred because there are more measurements.
+  //
+  // - "3-point" mode
+  //   Probe 3 arbitrary points on the bed (that aren't colinear)
+  //   You specify the XY coordinates of all 3 points.
+
+  // Enable this to sample the bed in a grid (least squares solution)
+  // Note: this feature generates 10KB extra code size
   // Deltas only support grid mode
   #define AUTO_BED_LEVELING_GRID
 
@@ -470,8 +480,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
     #define DELTA_PROBABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 10)
     #define LEFT_PROBE_BED_POSITION -DELTA_PROBABLE_RADIUS
     #define RIGHT_PROBE_BED_POSITION DELTA_PROBABLE_RADIUS
-    #define BACK_PROBE_BED_POSITION DELTA_PROBABLE_RADIUS
     #define FRONT_PROBE_BED_POSITION -DELTA_PROBABLE_RADIUS  
+    #define BACK_PROBE_BED_POSITION DELTA_PROBABLE_RADIUS
     
     #define MIN_PROBE_EDGE 10 // The probe square sides can be no smaller than this
 
@@ -571,12 +581,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define DEFAULT_RETRACT_ACCELERATION  3000   // E acceleration in mm/s^2 for retracts
 #define DEFAULT_TRAVEL_ACCELERATION   3000    // X, Y, Z acceleration in mm/s^2 for travel (non printing) moves
 
-// Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
-// The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
-// For the other hotends it is their distance from the extruder 0 hotend.
-// #define EXTRUDER_OFFSET_X {0.0, 20.00} // (in mm) for each extruder, offset of the hotend on the X axis
-// #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
-
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
 #define DEFAULT_XYJERK                20.0    // (mm/sec)
 #define DEFAULT_ZJERK                 20.0    // (mm/sec)
@@ -625,7 +629,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // See also language.h
 #define LANGUAGE_INCLUDE GENERATE_LANGUAGE_INCLUDE(en)
 
-// Chose ONE of the next three charsets. This has to match your hardware. In case of a full graphic display this information is not important.
+// Choose ONE of these 3 charsets. This has to match your hardware. Ignored for full graphic display.
 // To find out what type you have - compile with (test) - upload - click to get the menu. You'll see two typical lines from the upper half of the charset.
 // See also documentation/LCDLanguageFont.md
   #define DISPLAY_CHARSET_HD44780_JAPAN        // this is the most common hardware
@@ -705,7 +709,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // Shift register panels
 // ---------------------
 // 2 wire Non-latching LCD SR from:
-// https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/schematics#!shiftregister-connection 
+// https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/schematics#!shiftregister-connection
 
 //#define SAV_3DLCD
 
@@ -713,7 +717,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 //#define FAST_PWM_FAN
 
 // Use software PWM to drive the fan, as for the heaters. This uses a very low frequency
-// which is not ass annoying as with the hardware PWM. On the other hand, if this frequency
+// which is not as annoying as with the hardware PWM. On the other hand, if this frequency
 // is too low, you should also increment SOFT_PWM_SCALE.
 //#define FAN_SOFT_PWM
 
@@ -758,7 +762,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // Servo Endstops
 //
 // This allows for servo actuated endstops, primary usage is for the Z Axis to eliminate calibration or bed height changes.
-// Use M206 command to correct for switch height offset to actual nozzle height. Store that setting with M500.
+// Use M851 to set the z-probe vertical offset from the nozzle. Store that setting with M500.
 //
 //#define SERVO_ENDSTOPS {-1, -1, 0} // Servo index for X, Y, Z. Disable with -1
 //#define SERVO_ENDSTOP_ANGLES {0,0, 0,0, 70,0} // X,Y,Z Axis Extend and Retract angles
@@ -767,9 +771,9 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
  * Support for a filament diameter sensor
  * Also allows adjustment of diameter at print time (vs  at slicing)
  * Single extruder only at this point (extruder 0)
- * 
+ *
  * Motherboards
- * 34 - RAMPS1.4 - uses Analog input 5 on the AUX2 connector 
+ * 34 - RAMPS1.4 - uses Analog input 5 on the AUX2 connector
  * 81 - Printrboard - Uses Analog input 2 on the Exp1 connector (version B,C,D,E)
  * 301 - Rambo  - uses Analog input 3
  * Note may require analog pins to be defined for different motherboards
@@ -786,7 +790,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define MAX_MEASUREMENT_DELAY			20  //delay buffer size in bytes (1 byte = 1cm)- limits maximum measurement delay allowable (must be larger than MEASUREMENT_DELAY_CM  and lower number saves RAM)
 
 //defines used in the code
-#define DEFAULT_MEASURED_FILAMENT_DIA  DEFAULT_NOMINAL_FILAMENT_DIA  //set measured to nominal initially 
+#define DEFAULT_MEASURED_FILAMENT_DIA  DEFAULT_NOMINAL_FILAMENT_DIA  //set measured to nominal initially
 
 //When using an LCD, uncomment the line below to display the Filament sensor data on the last line instead of status.  Status will appear for 5 sec.
 //#define FILAMENT_LCD_DISPLAY
