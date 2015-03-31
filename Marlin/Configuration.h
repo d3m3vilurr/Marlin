@@ -479,8 +479,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
     // You probably don't need more than 3 (squared=9)
     #define AUTO_BED_LEVELING_GRID_POINTS 9
 
-    #define NONLINEAR_BED_LEVELING
-
   #else  // !AUTO_BED_LEVELING_GRID
 
       // Arbitrary points to probe. A simple cross-product
