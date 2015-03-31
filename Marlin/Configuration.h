@@ -254,9 +254,9 @@ Here are some standard links for getting your machine calibrated:
 //    #define  DEFAULT_Kd 440
 //
 // K800
-    #define  DEFAULT_Kp 15.92
-    #define  DEFAULT_Ki 1.02
-    #define  DEFAULT_Kd 61.81
+    #define  DEFAULT_Kp 17.42
+    #define  DEFAULT_Ki 1.46
+    #define  DEFAULT_Kd 51.93
 #endif // PIDTEMP
 
 //===========================================================================
