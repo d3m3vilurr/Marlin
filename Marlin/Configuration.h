@@ -519,7 +519,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
   
 //   #define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10" //These commands will be executed in the end of G29 routine.
                                                                             //Useful to retract a deployable probe.
-  #define Z_PROBE_END_SCRIPT "G1 X0 Y0 Z50 F12000"
 
   //#define Z_PROBE_SLED // turn on if you have a z-probe mounted on a sled like those designed by Charles Bell
   //#define SLED_DOCKING_OFFSET 5 // the extra distance the X axis must travel to pickup the sled. 0 should be fine but you can push it further if you'd like.

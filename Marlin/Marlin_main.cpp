@@ -1237,12 +1237,6 @@ inline void sync_plan_position() {
 
   static void engage_z_probe() {
 
-    #ifdef FSR_BED_LEVELING
-
-      return;
-
-    #endif
-
     #ifdef SERVO_ENDSTOPS
 
       // Engage Z Servo endstop if enabled
@@ -1295,11 +1289,6 @@ inline void sync_plan_position() {
 
   static void retract_z_probe() {
 
-    #ifdef FSR_BED_LEVELING
-
-      return;
-
-    #endif
 
     #ifdef SERVO_ENDSTOPS
 
@@ -1322,6 +1311,13 @@ inline void sync_plan_position() {
           servos[servo_endstops[Z_AXIS]].detach();
         #endif
       }
+
+    #elif defined(FSR_BED_LEVELING)
+
+      #if Z_RAISE_AFTER_PROBING > 0
+        do_blocking_move_to(current_position[X_AXIS], current_position[Y_AXIS], Z_RAISE_AFTER_PROBING);
+        st_synchronize();
+      #endif
 
     #elif defined(Z_PROBE_ALLEN_KEY)
 
@@ -2514,7 +2510,7 @@ inline void gcode_G28() {
 
     #ifdef Z_PROBE_SLED
       dock_sled(true, -SLED_DOCKING_OFFSET); // dock the probe, correcting for over-travel
-    #elif defined(Z_PROBE_ALLEN_KEY) //|| defined(SERVO_LEVELING)
+    #elif defined(Z_PROBE_ALLEN_KEY) || defined(FSR_BED_LEVELING) //|| defined(SERVO_LEVELING)
       retract_z_probe();
     #endif
 
