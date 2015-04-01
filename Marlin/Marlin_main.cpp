@@ -1098,10 +1098,7 @@ inline void sync_plan_position() {
   static void run_z_probe() {
 
     #ifdef DELTA
-    
-      float start_z = current_position[Z_AXIS];
-      long start_steps = st_get_position(Z_AXIS);
-    
+
       #ifdef FSR_BED_LEVELING
 
         feedrate = 600; //mm/min
@@ -1126,23 +1123,25 @@ inline void sync_plan_position() {
 
       #else
 
+        float start_z = current_position[Z_AXIS];
+        long start_steps = st_get_position(Z_AXIS);
+
         // move down slowly until you find the bed
         feedrate = homing_feedrate[Z_AXIS] / 4;
         destination[Z_AXIS] = -10;
         prepare_move_raw();
         st_synchronize();
+        endstops_hit_on_purpose();
+
+        // we have to let the planner know where we are right now as it is not where we said to go.
+        long stop_steps = st_get_position(Z_AXIS);
+        float mm = start_z - float(start_steps - stop_steps) / axis_steps_per_unit[Z_AXIS];
+        current_position[Z_AXIS] = mm;
+        calculate_delta(current_position);
+        plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS]);
 
       #endif
 
-      endstops_hit_on_purpose();
-      
-      // we have to let the planner know where we are right now as it is not where we said to go.
-      long stop_steps = st_get_position(Z_AXIS);
-      float mm = start_z - float(start_steps - stop_steps) / axis_steps_per_unit[Z_AXIS];
-      current_position[Z_AXIS] = mm;
-      calculate_delta(current_position);
-      plan_set_position(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS]);
-      
     #else // !DELTA
 
       plan_bed_level_matrix.set_to_identity();
@@ -2369,7 +2368,7 @@ inline void gcode_G28() {
 
           // raise extruder
           float measured_z,
-                z_before = Z_RAISE_BETWEEN_PROBINGS + (probePointCounter ? current_position[Z_AXIS] : Z_RAISE_BEFORE_PROBING);
+                z_before = probePointCounter ? (Z_RAISE_BETWEEN_PROBINGS + current_position[Z_AXIS]) : Z_RAISE_BEFORE_PROBING;
 
           #ifdef DELTA
             // Avoid probing the corners (outside the round or hexagon print surface) on a delta printer.
@@ -5295,15 +5294,8 @@ void clamp_to_software_endstops(float target[3])
 
     float negative_z_offset = 0;
     #ifdef ENABLE_AUTO_BED_LEVELING
-      #ifdef FSR_BED_LEVELING
-        negative_z_offset = negative_z_offset + Z_PROBE_OFFSET_FROM_EXTRUDER;
-      #else
-        if (Z_PROBE_OFFSET_FROM_EXTRUDER < 0) negative_z_offset = negative_z_offset + Z_PROBE_OFFSET_FROM_EXTRUDER;
-      #endif
+      if (Z_PROBE_OFFSET_FROM_EXTRUDER < 0) negative_z_offset = negative_z_offset + Z_PROBE_OFFSET_FROM_EXTRUDER;
       if (home_offset[Z_AXIS] < 0) negative_z_offset = negative_z_offset + home_offset[Z_AXIS];
-      #ifdef FSR_BED_LEVELING
-      else negative_z_offset = negative_z_offset - home_offset[Z_AXIS];
-      #endif
     #endif
 
     if (target[Z_AXIS] < min_pos[Z_AXIS]+negative_z_offset) target[Z_AXIS] = min_pos[Z_AXIS]+negative_z_offset;
