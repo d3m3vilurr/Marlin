@@ -572,6 +572,10 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   // Autolevel by measuring how much the hotend is pushing down, without separate Z probe.
   #define FSR_BED_LEVELING
 
+  #ifdef FSR_BED_LEVELING
+    #define FSR_SENSITIVITY 99
+  #endif
+
 #endif // ENABLE_AUTO_BED_LEVELING
 
 

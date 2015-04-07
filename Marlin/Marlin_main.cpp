@@ -1022,6 +1022,15 @@ inline void set_destination_to_current() { memcpy(destination, current_position,
       plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], destination[E_AXIS], (feedrate/60)*(feedmultiply/100.0), active_extruder);
       set_current_to_destination();
     }
+
+    #ifdef FSR_BED_LEVELING
+
+      bool touching_print_surface(int threshold) {
+        return rawBedSample() < threshold;
+      }
+
+    #endif
+
   #endif
 
   #ifdef AUTO_BED_LEVELING_GRID
@@ -1078,22 +1087,18 @@ inline void set_destination_to_current() { memcpy(destination, current_position,
 
   #endif // !AUTO_BED_LEVELING_GRID
 
-  bool touching_print_surface(int threshold) {
-    return rawBedSample() < threshold;
-  }
-
   static void run_z_probe() {
 
     #ifdef DELTA
 
       #ifdef FSR_BED_LEVELING
 
-        feedrate = 600; //mm/min
+        feedrate = homing_feedrate[Z_AXIS] / 4;
         float step = 0.05;
         int direction = -1;
         // Consider the glass touched if the raw ADC value is reduced by 5% or more.
         int analog_fsr_untouched = rawBedSample();
-        int threshold = analog_fsr_untouched * 95L / 100;
+        int threshold = analog_fsr_untouched * FSR_SENSITIVITY / 100;
         while (!touching_print_surface(threshold)) {
           destination[Z_AXIS] += step * direction;
           prepare_move_raw();
