@@ -219,7 +219,9 @@ void Stop();
   void filrunout();
 #endif
 
-bool IsStopped();
+extern bool Running;
+inline bool IsRunning() { return  Running; }
+inline bool IsStopped() { return !Running; }
 
 bool enquecommand(const char *cmd); //put a single ASCII command at the end of the current buffer or return false when it is full
 void enquecommands_P(const char *cmd); //put one or many ASCII commands at the end of the current buffer, read from flash
@@ -269,6 +271,10 @@ extern bool axis_known_position[3];
 
 #ifdef ENABLE_AUTO_BED_LEVELING
   extern float zprobe_zoffset;
+#endif
+
+#ifdef PREVENT_DANGEROUS_EXTRUDE
+  extern float extrude_min_temp;
 #endif
 
 extern int fanSpeed;
