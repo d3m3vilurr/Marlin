@@ -264,9 +264,9 @@ Here are some standard links for getting your machine calibrated:
 //    #define  DEFAULT_Kd 440
 //
 // K800
-    #define  DEFAULT_Kp 17.42
-    #define  DEFAULT_Ki 1.46
-    #define  DEFAULT_Kd 51.93
+    #define  DEFAULT_Kp 30.47
+    #define  DEFAULT_Ki 2.19
+    #define  DEFAULT_Kd 106.03
 #endif // PIDTEMP
 
 //===========================================================================
@@ -551,7 +551,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   // X and Y offsets must be integers
   #define X_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -left  +right
   #define Y_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -front +behind
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.4     // -below (always!)
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.25    // -below (always!)
 
   #define Z_RAISE_BEFORE_HOMING 15       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -641,7 +641,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 166}  // default steps per unit for Kossel (GT2, 20 tooth)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 162}  // default steps per unit for Kossel (GT2, 20 tooth)
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
