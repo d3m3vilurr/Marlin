@@ -573,7 +573,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   #define FSR_BED_LEVELING
 
   #ifdef FSR_BED_LEVELING
-    #define FSR_SENSITIVITY 99
+    #define FSR_SENSITIVITY 98
   #endif
 
 #endif // ENABLE_AUTO_BED_LEVELING
