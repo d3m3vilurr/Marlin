@@ -1115,8 +1115,8 @@ inline void set_destination_to_current() { memcpy(destination, current_position,
         float step = 0.05;
         int direction = -1;
         // Consider the glass touched if the raw ADC value is reduced by 5% or more.
-        int analog_fsr_untouched = rawBedSample();
-        int threshold = analog_fsr_untouched * FSR_SENSITIVITY / 100;
+        unsigned int analog_fsr_untouched = rawBedSample();
+        unsigned int threshold = analog_fsr_untouched * FSR_SENSITIVITY / 100;
         while (!touching_print_surface(threshold)) {
           destination[Z_AXIS] += step * direction;
           prepare_move_raw();
