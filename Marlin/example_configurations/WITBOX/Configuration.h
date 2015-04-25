@@ -1,4 +1,4 @@
-﻿#ifndef CONFIGURATION_H
+#ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
 #include "boards.h"
@@ -58,13 +58,11 @@ Here are some standard links for getting your machine calibrated:
 
 // The following define selects which electronics board you have.
 // Please choose the name from boards.h that matches your setup
-#ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_WITBOX
-#endif
+#define MOTHERBOARD BOARD_WITBOX
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-// #define CUSTOM_MACHINE_NAME "This RepRap"
+// #define CUSTOM_MACHINE_NAME "3D Printer"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
@@ -339,6 +337,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = true; // set to true to invert the logic 
 #define E_ENABLE_ON 0 // For all extruders
 
 // Disables axis when it's not being used.
+// WARNING: When motors turn off there is a chance of losing position accuracy!
 #define DISABLE_X false
 #define DISABLE_Y false
 #define DISABLE_Z true
@@ -615,9 +614,9 @@ const bool Z_PROBE_ENDSTOP_INVERTING = true; // set to true to invert the logic 
 //#define ENCODER_STEPS_PER_MENU_ITEM 5 // Set according to ENCODER_PULSES_PER_STEP or your liking
 //#define ULTIMAKERCONTROLLER //as available from the Ultimaker online store.
 //#define ULTIPANEL  //the UltiPanel as on Thingiverse
-//#define LCD_FEEDBACK_FREQUENCY_HZ 1000	// this is the tone frequency the buzzer plays when on UI feedback. ie Screen Click
 //#define LCD_FEEDBACK_FREQUENCY_DURATION_MS 100 // the duration the buzzer plays the UI feedback sound. ie Screen Click
-                                               // 0 to disable buzzer feedback  
+//#define LCD_FEEDBACK_FREQUENCY_HZ 1000         // this is the tone frequency the buzzer plays when on UI feedback. ie Screen Click
+                                                 // 0 to disable buzzer feedback. Test with M300 S<frequency Hz> P<duration ms>
 
 // PanelOne from T3P3 (via RAMPS 1.4 AUX2/AUX3)
 // http://reprap.org/wiki/PanelOne
