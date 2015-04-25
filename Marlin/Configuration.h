@@ -110,20 +110,20 @@ Here are some standard links for getting your machine calibrated:
 // NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
 
 // Center-to-center distance of the holes in the diagonal push rods.
-#define DELTA_DIAGONAL_ROD 210.0 // mm
+#define DELTA_DIAGONAL_ROD 214.0 // mm
 
 // Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 170.0 // mm
+#define DELTA_SMOOTH_ROD_OFFSET 150.0 // mm
 
 // Horizontal offset of the universal joints on the end effector.
-#define DELTA_EFFECTOR_OFFSET 24.0 // mm
+#define DELTA_EFFECTOR_OFFSET 30.0 // mm
 
 // Horizontal offset of the universal joints on the carriages.
-#define DELTA_CARRIAGE_OFFSET 33.45 // mm
+#define DELTA_CARRIAGE_OFFSET 15.00 // mm
 
 // Horizontal distance bridged by diagonal push rods when effector is centered.
 //#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
-#define DELTA_RADIUS 106
+#define DELTA_RADIUS 103
 
 // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
 #define DELTA_PRINTABLE_RADIUS 100 // 105
@@ -558,7 +558,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
   #define XY_TRAVEL_SPEED 8000         // X and Y axis travel speed between probes, in mm/min
 
-  #define Z_RAISE_BEFORE_PROBING 5    //How much the extruder will be raised before traveling to the first probing point.
+  #define Z_RAISE_BEFORE_PROBING 10   //How much the extruder will be raised before traveling to the first probing point.
   #define Z_RAISE_BETWEEN_PROBINGS 1  //How much the extruder will be raised when traveling from between next probing points
   #define Z_RAISE_AFTER_PROBING 50    //How much the extruder will be raised after the last probing point.
   
@@ -611,7 +611,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   #define FSR_BED_LEVELING
 
   #ifdef FSR_BED_LEVELING
-    #define FSR_SENSITIVITY 98
+    #define FSR_SENSITIVITY 95
   #endif
 
 #endif // ENABLE_AUTO_BED_LEVELING
@@ -628,7 +628,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 #ifdef MANUAL_HOME_POSITIONS
   #define MANUAL_X_HOME_POS 0
   #define MANUAL_Y_HOME_POS 0
-  #define MANUAL_Z_HOME_POS 296.6 // For delta: Distance between nozzle and print surface after homing.
+  #define MANUAL_Z_HOME_POS 295   // For delta: Distance between nozzle and print surface after homing.
 #endif
 
 // @section movement
@@ -641,7 +641,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 162}  // default steps per unit for Kossel (GT2, 20 tooth)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 160}  // default steps per unit for Kossel (GT2, 20 tooth)
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
@@ -690,7 +690,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // @section temperature
 
 // Preheat Constants
-#define PLA_PREHEAT_HOTEND_TEMP 210  // Current J-Head thermistor reads hot
+#define PLA_PREHEAT_HOTEND_TEMP 235  // Current J-Head thermistor reads hot
 #define PLA_PREHEAT_HPB_TEMP 70
 #define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
