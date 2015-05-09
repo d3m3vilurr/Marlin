@@ -1,11 +1,18 @@
 # Marlin 3D Printer Firmware
 <img align="right" src="Documentation/Logo/Marlin%20Logo%20GitHub.png" />
 
-  * [Configuration & Compilation](/Documentation/Compilation.md)
-  * Supported
-    * [Features](/Documentation/Features.md)
-    * [Hardware](/Documentation/Hardware.md)
-    * [GCodes](/Documentation/GCodes.md)
+ Documentation is moving to http://www.marlinfirmware.org
+ 
+ If you cant find it here then look there, if you cant find it either place then raise a issue. If you know the documentation please contribute. 
+
+## Current Status: Bug Fixing
+
+The Marlin development is currently revived. There's a long list of reported issues and pull requests, which we are working on currently.
+
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/2224/badge.svg)](https://scan.coverity.com/projects/2224)
+[![Travis Build Status](https://travis-ci.org/MarlinFirmware/Marlin.svg)](https://travis-ci.org/MarlinFirmware/Marlin)
+
+ 
   * Notes
     * [Auto Bed Leveling](/Documentation/BedLeveling.md)
     * [Filament Sensor](/Documentation/FilamentSensor.md)
@@ -15,18 +22,8 @@
 
 ##### [RepRap.org Wiki Page](http://reprap.org/wiki/Marlin)
 
-## Quick Information
 
-This is a firmware for reprap single-processor electronics setups.
-It also works on the Ultimaker PCB. It supports printing from SD card+Folders and look-ahead trajectory planning.
-This firmware is a mashup between [Sprinter](https://github.com/kliment/Sprinter), [grbl](https://github.com/simen/grbl), and many original parts.
 
-## Current Status: Bug Fixing
-
-The Marlin development is currently revived. There's a long list of reported issues and pull requests, which we are working on currently.
-
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/2224/badge.svg)](https://scan.coverity.com/projects/2224)
-[![Travis Build Status](https://travis-ci.org/MarlinFirmware/Marlin.svg)](https://travis-ci.org/MarlinFirmware/Marlin)
 
 ## Contact
 

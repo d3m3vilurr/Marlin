@@ -42,7 +42,7 @@ Here are some standard links for getting your machine calibrated:
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION "1.0.3 dev"
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(none, default config)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "RepRapWorld.com" // Who made the changes.
 #define STRING_SPLASH_LINE1 "v" STRING_VERSION // will be shown during bootup in line 1
 //#define STRING_SPLASH_LINE2 STRING_VERSION_CONFIG_H // will be shown during bootup in line2
 
@@ -56,7 +56,7 @@ Here are some standard links for getting your machine calibrated:
 
 // This determines the communication speed of the printer
 // :[2400,9600,19200,38400,57600,115200,250000]
-#define BAUDRATE 115200
+#define BAUDRATE 250000
 
 // This enables the serial port associated to the Bluetooth interface
 //#define BTENABLED              // Enable BT interface on AT90USB devices
@@ -64,12 +64,12 @@ Here are some standard links for getting your machine calibrated:
 // The following define selects which electronics board you have.
 // Please choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_13_EFB
+  #define MOTHERBOARD BOARD_MEGATRONICS_3
 #endif
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-#define CUSTOM_MACHINE_NAME "K800"
+// #define CUSTOM_MACHINE_NAME "3D Printer"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
@@ -94,51 +94,6 @@ Here are some standard links for getting your machine calibrated:
 
 // Define this to have the electronics keep the power supply off on startup. If you don't know what this is leave it.
 // #define PS_DEFAULT_OFF
-
-//===========================================================================
-//============================== Delta Settings =============================
-//===========================================================================
-// Enable DELTA kinematics and most of the default configuration for Deltas
-#define DELTA
-
-// Make delta curves from many straight lines (linear interpolation).
-// This is a trade-off between visible corners (not enough segments)
-// and processor overload (too many expensive sqrt calls).
-#define DELTA_SEGMENTS_PER_SECOND 200
-
-// NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
-
-// Center-to-center distance of the holes in the diagonal push rods.
-#define DELTA_DIAGONAL_ROD 210.0 // mm
-
-// Horizontal offset from middle of printer to smooth rod center.
-#define DELTA_SMOOTH_ROD_OFFSET 150.0 // mm
-
-// Horizontal offset of the universal joints on the end effector.
-#define DELTA_EFFECTOR_OFFSET 30.0 // mm
-
-// Horizontal offset of the universal joints on the carriages.
-#define DELTA_CARRIAGE_OFFSET 15.00 // mm
-
-// Horizontal distance bridged by diagonal push rods when effector is centered.
-//#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
-#define DELTA_RADIUS 106
-
-// Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-#define DELTA_PRINTABLE_RADIUS 100 // 105
-
-// Effective X/Y positions of the three vertical towers.
-#define SIN_60 0.8660254037844386
-#define COS_60 0.5
-#define DELTA_TOWER1_X -SIN_60*DELTA_RADIUS // front left tower
-#define DELTA_TOWER1_Y -COS_60*DELTA_RADIUS
-#define DELTA_TOWER2_X SIN_60*DELTA_RADIUS // front right tower
-#define DELTA_TOWER2_Y -COS_60*DELTA_RADIUS
-#define DELTA_TOWER3_X 0.0 // back middle tower
-#define DELTA_TOWER3_Y DELTA_RADIUS
-
-// Diagonal rod squared
-#define DELTA_DIAGONAL_ROD_2 pow(DELTA_DIAGONAL_ROD,2)
 
 // @section temperature
 
@@ -184,15 +139,15 @@ Here are some standard links for getting your machine calibrated:
 //     #define DUMMY_THERMISTOR_998_VALUE 25
 //     #define DUMMY_THERMISTOR_999_VALUE 100
 // :{ '0': "Not used", '4': "10k !! do not use for a hotend. Bad resolution at high temp. !!", '1': "100k / 4.7k - EPCOS", '51': "100k / 1k - EPCOS", '6': "100k / 4.7k EPCOS - Not as accurate as Table 1", '5': "100K / 4.7k - ATC Semitec 104GT-2 (Used in ParCan & J-Head)", '7': "100k / 4.7k Honeywell 135-104LAG-J01", '71': "100k / 4.7k Honeywell 135-104LAF-J01", '8': "100k / 4.7k 0603 SMD Vishay NTCS0603E3104FXT", '9': "100k / 4.7k GE Sensing AL03006-58.2K-97-G1", '10': "100k / 4.7k RS 198-961", '11': "100k / 4.7k beta 3950 1%", '12': "100k / 4.7k 0603 SMD Vishay NTCS0603E3104FXT (calibrated for Makibox hot bed)", '13': "100k Hisens 3950  1% up to 300°C for hotend 'Simple ONE ' & hotend 'All In ONE'", '60': "100k Maker's Tool Works Kapton Bed Thermistor beta=3950", '55': "100k / 1k - ATC Semitec 104GT-2 (Used in ParCan & J-Head)", '2': "200k / 4.7k - ATC Semitec 204GT-2", '52': "200k / 1k - ATC Semitec 204GT-2", '-2': "Thermocouple + MAX6675 (only for sensor 0)", '-1': "Thermocouple + AD595", '3': "Mendel-parts / 4.7k", '1047': "Pt1000 / 4.7k", '1010': "Pt1000 / 1k (non standard)", '20': "PT100 (Ultimainboard V2.x)", '147': "Pt100 / 4.7k", '110': "Pt100 / 1k (non-standard)", '998': "Dummy 1", '999': "Dummy 2" }
-#define TEMP_SENSOR_0 5
+#define TEMP_SENSOR_0 1
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
-#define TEMP_SENSOR_BED 5
+#define TEMP_SENSOR_BED 1
 
 // This makes temp sensor 1 a redundant sensor for sensor 0. If the temperatures difference between these sensors is to high the print will be aborted.
 //#define TEMP_SENSOR_1_AS_REDUNDANT
-#define MAX_REDUNDANT_TEMP_SENSOR_DIFF 5
+#define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
 // Actual temperature must be close to target for this long before M109 returns success
 #define TEMP_RESIDENCY_TIME 10  // (seconds)
@@ -206,7 +161,7 @@ Here are some standard links for getting your machine calibrated:
 #define HEATER_1_MINTEMP 5
 #define HEATER_2_MINTEMP 5
 #define HEATER_3_MINTEMP 5
-#define BED_MINTEMP 0
+#define BED_MINTEMP 5
 
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
@@ -215,7 +170,7 @@ Here are some standard links for getting your machine calibrated:
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
-#define BED_MAXTEMP 1000
+#define BED_MAXTEMP 150
 
 // If your bed has low resistance e.g. .6 ohm and throws the fuse you can duty cycle it to reduce the
 // average current. The value should be an integer and the heat bed will be turned on for 1 interval of
@@ -245,12 +200,13 @@ Here are some standard links for getting your machine calibrated:
                                   // is more then PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
   #define PID_INTEGRAL_DRIVE_MAX PID_MAX  //limit for the integral term
   #define K1 0.95 //smoothing factor within the PID
-
+  #define PID_dT ((16.0 * 8.0)/(F_CPU / 64.0 / 256.0)) //sampling period of the temperature routine
+  
 // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 // Ultimaker
-//    #define  DEFAULT_Kp 22.2
-//    #define  DEFAULT_Ki 1.08
-//    #define  DEFAULT_Kd 114
+    #define  DEFAULT_Kp 22.2
+    #define  DEFAULT_Ki 1.08
+    #define  DEFAULT_Kd 114
 
 // MakerGear
 //    #define  DEFAULT_Kp 7.0
@@ -261,11 +217,6 @@ Here are some standard links for getting your machine calibrated:
 //    #define  DEFAULT_Kp 63.0
 //    #define  DEFAULT_Ki 2.25
 //    #define  DEFAULT_Kd 440
-//
-// K800
-    #define  DEFAULT_Kp 30.47
-    #define  DEFAULT_Ki 2.19
-    #define  DEFAULT_Kd 106.03
 #endif // PIDTEMP
 
 //===========================================================================
@@ -320,36 +271,42 @@ Here are some standard links for getting your machine calibrated:
 #define EXTRUDE_MAXLENGTH (X_MAX_LENGTH+Y_MAX_LENGTH) //prevent extrusion of very large distances.
 
 //===========================================================================
-//======================== Thermal Runaway Protection =======================
+//============================= Thermal Runaway Protection ==================
 //===========================================================================
+/*
+This is a feature to protect your printer from burn up in flames if it has
+a thermistor coming off place (this happened to a friend of mine recently and
+motivated me writing this feature).
 
-/**
- * Thermal Runaway Protection protects your printer from damage and fire if a
- * thermistor falls out or temperature sensors fail in any way.
- *
- * The issue: If a thermistor falls out or a temperature sensor fails,
- * Marlin can no longer sense the actual temperature. Since a disconnected
- * thermistor reads as a low temperature, the firmware will keep the heater on.
- *
- * The solution: Once the temperature reaches the target, start observing.
- * If the temperature stays too far below the target (hysteresis) for too long,
- * the firmware will halt as a safety precaution.
- *
- * Note that because the countdown starts only AFTER the temperature reaches
- * the target, this will not catch a thermistor that is already disconnected
- * when the print starts!
- *
- * To enable for all extruder heaters, uncomment the two defines below:
- */
+The issue: If a thermistor come off, it will read a lower temperature than actual.
+The system will turn the heater on forever, burning up the filament and anything
+else around.
+
+After the temperature reaches the target for the first time, this feature will
+start measuring for how long the current temperature stays below the target
+minus _HYSTERESIS (set_temperature - THERMAL_RUNAWAY_PROTECTION_HYSTERESIS).
+
+If it stays longer than _PERIOD, it means the thermistor temperature
+cannot catch up with the target, so something *may be* wrong. Then, to be on the
+safe side, the system will he halt.
+
+Bear in mind the count down will just start AFTER the first time the
+thermistor temperature is over the target, so you will have no problem if
+your extruder heater takes 2 minutes to hit the target on heating.
+
+*/
+// If you want to enable this feature for all your extruder heaters,
+// uncomment the 2 defines below:
 
 // Parameters for all extruder heaters
-#define THERMAL_RUNAWAY_PROTECTION_PERIOD 40 // in seconds
+#define THERMAL_RUNAWAY_PROTECTION_PERIOD 40 //in seconds
 #define THERMAL_RUNAWAY_PROTECTION_HYSTERESIS 4 // in degree Celsius
 
-// To enable for the bed heater, uncomment the two defines below:
+// If you want to enable this feature for your bed heater,
+// uncomment the 2 defines below:
 
 // Parameters for the bed heater
-#define THERMAL_RUNAWAY_PROTECTION_BED_PERIOD 20 // in seconds
+#define THERMAL_RUNAWAY_PROTECTION_BED_PERIOD 20 //in seconds
 #define THERMAL_RUNAWAY_PROTECTION_BED_HYSTERESIS 2 // in degree Celsius
 
 
@@ -382,12 +339,12 @@ Here are some standard links for getting your machine calibrated:
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-const bool X_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
-const bool Y_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
-const bool Z_MIN_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
-const bool X_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
-const bool Y_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
-const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
+const bool X_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool Y_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool Z_MIN_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool X_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool Y_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
+const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of the endstop.
 const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic of the endstop.
 //#define DISABLE_MAX_ENDSTOPS
 //#define DISABLE_MIN_ENDSTOPS
@@ -420,7 +377,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false // DELTA does not invert
+#define INVERT_X_DIR false
 #define INVERT_Y_DIR false
 #define INVERT_Z_DIR false
 
@@ -437,10 +394,9 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // ENDSTOP SETTINGS:
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
-// deltas always home to max
-#define X_HOME_DIR 1
-#define Y_HOME_DIR 1
-#define Z_HOME_DIR 1
+#define X_HOME_DIR -1
+#define Y_HOME_DIR -1
+#define Z_HOME_DIR -1
 
 #define min_software_endstops true // If true, axis won't move to coordinates less than HOME_POS.
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
@@ -448,28 +404,25 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // @section machine
 
 // Travel limits after homing (units are in mm)
-#define X_MAX_POS DELTA_PRINTABLE_RADIUS
-#define X_MIN_POS -DELTA_PRINTABLE_RADIUS
-#define Y_MAX_POS DELTA_PRINTABLE_RADIUS
-#define Y_MIN_POS -DELTA_PRINTABLE_RADIUS
-#define Z_MAX_POS MANUAL_Z_HOME_POS
+#define X_MIN_POS 0
+#define Y_MIN_POS 0
 #define Z_MIN_POS 0
+#define X_MAX_POS 200
+#define Y_MAX_POS 200
+#define Z_MAX_POS 200
 
 //===========================================================================
-//========================= Filament Runout Sensor ==========================
+//============================= Filament Runout Sensor ======================
 //===========================================================================
 //#define FILAMENT_RUNOUT_SENSOR // Uncomment for defining a filament runout sensor such as a mechanical or opto endstop to check the existence of filament
                                  // In RAMPS uses servo pin 2. Can be changed in pins file. For other boards pin definition should be made.
                                  // It is assumed that when logic high = filament available
                                  //                    when logic  low = filament ran out
-#ifdef FILAMENT_RUNOUT_SENSOR
-  const bool FIL_RUNOUT_INVERTING = true;  // Should be uncommented and true or false should assigned
-  #define ENDSTOPPULLUP_FIL_RUNOUT // Uncomment to use internal pullup for filament runout pins if the sensor is defined.
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
-#endif 
+//const bool FIL_RUNOUT_INVERTING = true;  // Should be uncommented and true or false should assigned
+//#define ENDSTOPPULLUP_FIL_RUNOUT // Uncomment to use internal pullup for filament runout pins if the sensor is defined.
 
 //===========================================================================
-//=========================== Manual Bed Leveling ===========================
+//============================ Mesh Bed Leveling ============================
 //===========================================================================
 
 // #define MANUAL_BED_LEVELING  // Add display menu option for bed leveling
@@ -490,14 +443,13 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 #endif  // MESH_BED_LEVELING
 
 //===========================================================================
-//============================ Bed Auto Leveling ============================
+//============================= Bed Auto Leveling ===========================
 //===========================================================================
 
 // @section bedlevel
 
-#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
-// Z-Probe Repeatability test is not supported in Deltas yet.
-//#define Z_PROBE_REPEATABILITY_TEST  // If not commented out, Z-Probe Repeatability test will be included if Auto Bed Leveling is Enabled.
+//#define ENABLE_AUTO_BED_LEVELING // Delete the comment to enable (remove // at the start of the line)
+#define Z_PROBE_REPEATABILITY_TEST  // If not commented out, Z-Probe Repeatability test will be included if Auto Bed Leveling is Enabled.
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
@@ -514,22 +466,20 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
   // Enable this to sample the bed in a grid (least squares solution)
   // Note: this feature generates 10KB extra code size
-  // Deltas only support grid mode
   #define AUTO_BED_LEVELING_GRID
 
   #ifdef AUTO_BED_LEVELING_GRID
 
-    #define DELTA_PROBABLE_RADIUS (DELTA_PRINTABLE_RADIUS - 10)
-    #define LEFT_PROBE_BED_POSITION -DELTA_PROBABLE_RADIUS
-    #define RIGHT_PROBE_BED_POSITION DELTA_PROBABLE_RADIUS
-    #define FRONT_PROBE_BED_POSITION -DELTA_PROBABLE_RADIUS  
-    #define BACK_PROBE_BED_POSITION DELTA_PROBABLE_RADIUS
-    
+    #define LEFT_PROBE_BED_POSITION 15
+    #define RIGHT_PROBE_BED_POSITION 170
+    #define FRONT_PROBE_BED_POSITION 20
+    #define BACK_PROBE_BED_POSITION 170
+
     #define MIN_PROBE_EDGE 10 // The probe square sides can be no smaller than this
 
     // Set the number of grid points per dimension
     // You probably don't need more than 3 (squared=9)
-    #define AUTO_BED_LEVELING_GRID_POINTS 9
+    #define AUTO_BED_LEVELING_GRID_POINTS 2
 
   #else  // !AUTO_BED_LEVELING_GRID
 
@@ -546,22 +496,22 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
   // Offsets to the probe relative to the extruder tip (Hotend - Probe)
   // X and Y offsets must be integers
-  #define X_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -left  +right
-  #define Y_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -front +behind
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.23    // -below (always!)
+  #define X_PROBE_OFFSET_FROM_EXTRUDER -25     // Probe on: -left  +right
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER -29     // Probe on: -front +behind
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -12.35  // -below (always!)
 
-  #define Z_RAISE_BEFORE_HOMING 15       // (in mm) Raise Z before homing (G28) for Probe Clearance.
+  #define Z_RAISE_BEFORE_HOMING 4       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
 
   #define XY_TRAVEL_SPEED 8000         // X and Y axis travel speed between probes, in mm/min
 
-  #define Z_RAISE_BEFORE_PROBING 10   //How much the extruder will be raised before traveling to the first probing point.
-  #define Z_RAISE_BETWEEN_PROBINGS 1  //How much the extruder will be raised when traveling from between next probing points
-  #define Z_RAISE_AFTER_PROBING 50    //How much the extruder will be raised after the last probing point.
-  
+  #define Z_RAISE_BEFORE_PROBING 15   //How much the extruder will be raised before traveling to the first probing point.
+  #define Z_RAISE_BETWEEN_PROBINGS 5  //How much the extruder will be raised when traveling from between next probing points
+  #define Z_RAISE_AFTER_PROBING 15    //How much the extruder will be raised after the last probing point.
+
 //   #define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10" //These commands will be executed in the end of G29 routine.
                                                                             //Useful to retract a deployable probe.
-
+                                                                           
   //#define Z_PROBE_SLED // turn on if you have a z-probe mounted on a sled like those designed by Charles Bell
   //#define SLED_DOCKING_OFFSET 5 // the extra distance the X axis must travel to pickup the sled. 0 should be fine but you can push it further if you'd like.
 
@@ -603,29 +553,22 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
   //#define Z_PROBE_ENDSTOP
 
-  // Force Sensing Resistors under the print surface, wired to heated bed thermistor input.
-  // Autolevel by measuring how much the hotend is pushing down, without separate Z probe.
-  #define FSR_BED_LEVELING
-
-  #ifdef FSR_BED_LEVELING
-    #define FSR_SENSITIVITY 97
-  #endif
-
 #endif // ENABLE_AUTO_BED_LEVELING
 
 
 // @section homing
 
 // The position of the homing switches
-#define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
-#define BED_CENTER_AT_0_0  // If defined, the center of the bed is at (X=0, Y=0)
+//#define MANUAL_HOME_POSITIONS  // If defined, MANUAL_*_HOME_POS below will be used
+//#define BED_CENTER_AT_0_0  // If defined, the center of the bed is at (X=0, Y=0)
 
 // Manual homing switch locations:
 // For deltabots this means top and center of the Cartesian print volume.
 #ifdef MANUAL_HOME_POSITIONS
   #define MANUAL_X_HOME_POS 0
   #define MANUAL_Y_HOME_POS 0
-  #define MANUAL_Z_HOME_POS 295   // For delta: Distance between nozzle and print surface after homing.
+  #define MANUAL_Z_HOME_POS 0
+  //#define MANUAL_Z_HOME_POS 402 // For delta: Distance between nozzle and print surface after homing.
 #endif
 
 // @section movement
@@ -634,13 +577,13 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
  * MOVEMENT SETTINGS
  */
 
-#define HOMING_FEEDRATE {200*60, 200*60, 200*60, 0}  // set the homing speeds (mm/min)
+#define HOMING_FEEDRATE {50*60, 50*60, 4*60, 0}  // set the homing speeds (mm/min)
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 160}  // default steps per unit for Kossel (GT2, 20 tooth)
-#define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
-#define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402*2,78.7402*2,5120.00,760*1*1.5}  // default steps per unit for Ultimaker
+#define DEFAULT_MAX_FEEDRATE          {300, 300, 5, 25}    // (mm/sec)
+#define DEFAULT_MAX_ACCELERATION      {3000,3000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for Skeinforge 40+, for older versions raise them a lot.
 
 #define DEFAULT_ACCELERATION          3000    // X, Y, Z and E acceleration in mm/s^2 for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  3000   // E acceleration in mm/s^2 for retracts
@@ -648,8 +591,8 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
 #define DEFAULT_XYJERK                20.0    // (mm/sec)
-#define DEFAULT_ZJERK                 20.0    // (mm/sec)
-#define DEFAULT_EJERK                 5.0     // (mm/sec)
+#define DEFAULT_ZJERK                 0.4     // (mm/sec)
+#define DEFAULT_EJERK                 5.0    // (mm/sec)
 
 
 //=============================================================================
@@ -687,13 +630,13 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // @section temperature
 
 // Preheat Constants
-#define PLA_PREHEAT_HOTEND_TEMP 235  // Current J-Head thermistor reads hot
+#define PLA_PREHEAT_HOTEND_TEMP 180
 #define PLA_PREHEAT_HPB_TEMP 70
-#define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define PLA_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 #define ABS_PREHEAT_HOTEND_TEMP 240
-#define ABS_PREHEAT_HPB_TEMP 100
-#define ABS_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
+#define ABS_PREHEAT_HPB_TEMP 110
+#define ABS_PREHEAT_FAN_SPEED 0   // Insert Value between 0 and 255
 
 //==============================LCD and SD support=============================
 // @section lcd
@@ -710,11 +653,11 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   //#define DISPLAY_CHARSET_HD44780_WESTERN
   //#define DISPLAY_CHARSET_HD44780_CYRILLIC
 
-//#define ULTRA_LCD  //general LCD support, also 16x2
+#define ULTRA_LCD  //general LCD support, also 16x2
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
-//#define SDSUPPORT // Enable SD Card Support in Hardware Console
+#define SDSUPPORT // Enable SD Card Support in Hardware Console
 //#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
-//#define SD_CHECK_AND_RETRY // Use CRC checks and retries on the SD communication
+#define SD_CHECK_AND_RETRY // Use CRC checks and retries on the SD communication
 //#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
 //#define ENCODER_STEPS_PER_MENU_ITEM 5 // Set according to ENCODER_PULSES_PER_STEP or your liking
 //#define ULTIMAKERCONTROLLER //as available from the Ultimaker online store.
@@ -748,24 +691,17 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // http://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
 // ==> REMEMBER TO INSTALL U8glib to your ARDUINO library folder: http://code.google.com/p/u8glib/wiki/u8glib
-#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
 
 // The RepRapWorld REPRAPWORLD_KEYPAD v1.1
 // http://reprapworld.com/?products_details&products_id=202&cPath=1591_1626
-//#define REPRAPWORLD_KEYPAD
-//#define REPRAPWORLD_KEYPAD_MOVE_STEP 10.0 // how much should be moved when a key is pressed, eg 10.0 means 10mm per click
+#define REPRAPWORLD_KEYPAD
+#define REPRAPWORLD_KEYPAD_MOVE_STEP 10.0 // how much should be moved when a key is pressed, eg 10.0 means 10mm per click
 
 // The Elefu RA Board Control Panel
 // http://www.elefu.com/index.php?route=product/product&product_id=53
 // REMEMBER TO INSTALL LiquidCrystal_I2C.h in your ARDUINO library folder: https://github.com/kiyoshigawa/LiquidCrystal_I2C
 //#define RA_CONTROL_PANEL
-
-// Delta calibration menu
-// uncomment to add three points calibration menu option.
-// See http://minow.blogspot.com/index.html#4918805519571907051
-// If needed, adjust the X, Y, Z calibration coordinates
-// in ultralcd.cpp@lcd_delta_calibrate_menu()
-// #define DELTA_CALIBRATION_MENU
 
 /**
  * I2C Panels
