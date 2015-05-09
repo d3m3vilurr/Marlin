@@ -110,7 +110,7 @@ Here are some standard links for getting your machine calibrated:
 // NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
 
 // Center-to-center distance of the holes in the diagonal push rods.
-#define DELTA_DIAGONAL_ROD 214.0 // mm
+#define DELTA_DIAGONAL_ROD 210.0 // mm
 
 // Horizontal offset from middle of printer to smooth rod center.
 #define DELTA_SMOOTH_ROD_OFFSET 150.0 // mm
@@ -123,7 +123,7 @@ Here are some standard links for getting your machine calibrated:
 
 // Horizontal distance bridged by diagonal push rods when effector is centered.
 //#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
-#define DELTA_RADIUS 103
+#define DELTA_RADIUS 106
 
 // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
 #define DELTA_PRINTABLE_RADIUS 100 // 105
@@ -552,7 +552,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   // X and Y offsets must be integers
   #define X_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -left  +right
   #define Y_PROBE_OFFSET_FROM_EXTRUDER 0       // Probe on: -front +behind
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.25    // -below (always!)
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER 0.23    // -below (always!)
 
   #define Z_RAISE_BEFORE_HOMING 15       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -612,7 +612,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   #define FSR_BED_LEVELING
 
   #ifdef FSR_BED_LEVELING
-    #define FSR_SENSITIVITY 95
+    #define FSR_SENSITIVITY 97
   #endif
 
 #endif // ENABLE_AUTO_BED_LEVELING
