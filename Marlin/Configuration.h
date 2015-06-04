@@ -84,6 +84,8 @@ Here are some standard links for getting your machine calibrated:
 // For the other hotends it is their distance from the extruder 0 hotend.
 //#define EXTRUDER_OFFSET_X {0.0, 20.00} // (in mm) for each extruder, offset of the hotend on the X axis
 //#define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
+#define EXTRUDER_OFFSET_X {-6.1}
+#define EXTRUDER_OFFSET_Y {0}
 
 //// The following define selects which power supply you have. Please choose the one that matches your setup
 // 1 = ATX
@@ -104,7 +106,7 @@ Here are some standard links for getting your machine calibrated:
 // Make delta curves from many straight lines (linear interpolation).
 // This is a trade-off between visible corners (not enough segments)
 // and processor overload (too many expensive sqrt calls).
-#define DELTA_SEGMENTS_PER_SECOND 200
+#define DELTA_SEGMENTS_PER_SECOND 160
 
 // NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
 
@@ -122,10 +124,10 @@ Here are some standard links for getting your machine calibrated:
 
 // Horizontal distance bridged by diagonal push rods when effector is centered.
 //#define DELTA_RADIUS (DELTA_SMOOTH_ROD_OFFSET-DELTA_EFFECTOR_OFFSET-DELTA_CARRIAGE_OFFSET)
-#define DELTA_RADIUS 106
+#define DELTA_RADIUS 105.3
 
 // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-#define DELTA_PRINTABLE_RADIUS 100 // 105
+#define DELTA_PRINTABLE_RADIUS 90 // 105
 
 // Effective X/Y positions of the three vertical towers.
 #define SIN_60 0.8660254037844386
@@ -263,9 +265,12 @@ Here are some standard links for getting your machine calibrated:
 //    #define  DEFAULT_Kd 440
 //
 // K800
-    #define  DEFAULT_Kp 30.47
-    #define  DEFAULT_Ki 2.19
-    #define  DEFAULT_Kd 106.03
+    //#define  DEFAULT_Kp 30.47
+    //#define  DEFAULT_Ki 2.19
+    //#define  DEFAULT_Kd 106.03
+    #define  DEFAULT_Kp 23.89
+    #define  DEFAULT_Ki 1.29
+    #define  DEFAULT_Kd 110.37
 #endif // PIDTEMP
 
 //===========================================================================
@@ -608,7 +613,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
   #define FSR_BED_LEVELING
 
   #ifdef FSR_BED_LEVELING
-    #define FSR_SENSITIVITY 97
+    #define FSR_SENSITIVITY 95
   #endif
 
 #endif // ENABLE_AUTO_BED_LEVELING
@@ -625,7 +630,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 #ifdef MANUAL_HOME_POSITIONS
   #define MANUAL_X_HOME_POS 0
   #define MANUAL_Y_HOME_POS 0
-  #define MANUAL_Z_HOME_POS 295   // For delta: Distance between nozzle and print surface after homing.
+  #define MANUAL_Z_HOME_POS 290   // For delta: Distance between nozzle and print surface after homing.
 #endif
 
 // @section movement
@@ -638,7 +643,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 
 // default settings
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 160}  // default steps per unit for Kossel (GT2, 20 tooth)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 92}    // default steps per unit for Kossel (GT2, 20 tooth)
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 500, 25}    // (mm/sec)
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,9000,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
@@ -687,7 +692,7 @@ const bool Z_PROBE_ENDSTOP_INVERTING = false; // set to true to invert the logic
 // @section temperature
 
 // Preheat Constants
-#define PLA_PREHEAT_HOTEND_TEMP 235  // Current J-Head thermistor reads hot
+#define PLA_PREHEAT_HOTEND_TEMP 230  // Current J-Head thermistor reads hot
 #define PLA_PREHEAT_HPB_TEMP 70
 #define PLA_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
