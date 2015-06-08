@@ -1101,14 +1101,17 @@ inline void sync_plan_position() {
 inline void set_current_to_destination() { memcpy(current_position, destination, sizeof(current_position)); }
 inline void set_destination_to_current() { memcpy(destination, current_position, sizeof(destination)); }
 
-static void setup_for_endstop_move() {
+static void setup_for_endstop_move(bool force_enable_endstop=false) {
   saved_feedrate = feedrate;
   saved_feedrate_multiplier = feedrate_multiplier;
   feedrate_multiplier = 100;
   refresh_cmd_timeout();
-  #ifndef FSR_BED_LEVELING
-  enable_endstops(true);
+  #ifdef FSR_BED_LEVELING
+    if (!force_enable_endstop) {
+      return;
+    }
   #endif
+  enable_endstops(true);
 }
 
 #ifdef ENABLE_AUTO_BED_LEVELING
@@ -2158,7 +2161,7 @@ inline void gcode_G28() {
     mbl.active = 0;
   #endif
 
-  setup_for_endstop_move();
+  setup_for_endstop_move(true);
 
   set_destination_to_current();
 
