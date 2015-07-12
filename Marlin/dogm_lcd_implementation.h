@@ -197,6 +197,11 @@ static void lcd_implementation_init() {
 	  digitalWrite(LCD_PIN_BL, HIGH);
   #endif
 
+  #ifdef LCD_PIN_RESET
+    pinMode(LCD_PIN_RESET, OUTPUT);           
+    digitalWrite(LCD_PIN_RESET, HIGH);
+  #endif
+
   u8g.setContrast(lcd_contrast);	
 	// FIXME: remove this workaround
   // Uncomment this if you have the first generation (V1.10) of STBs board
@@ -384,7 +389,7 @@ static void lcd_implementation_status_screen() {
       lcd_printPGM(PSTR("dia:"));
       lcd_print(ftostr12ns(filament_width_meas));
       lcd_printPGM(PSTR(" factor:"));
-      lcd_print(itostr3(volumetric_multiplier[FILAMENT_SENSOR_EXTRUDER_NUM]));
+      lcd_print(itostr3(100.0 * volumetric_multiplier[FILAMENT_SENSOR_EXTRUDER_NUM]));
       lcd_print('%');
     }
   #endif

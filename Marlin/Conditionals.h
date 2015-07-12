@@ -58,7 +58,7 @@
     #define REPRAP_DISCOUNT_SMART_CONTROLLER
   #endif
 
-  #if defined(ULTIMAKERCONTROLLER) || defined(REPRAP_DISCOUNT_SMART_CONTROLLER) || defined(G3D_PANEL)
+  #if defined(ULTIMAKERCONTROLLER) || defined(REPRAP_DISCOUNT_SMART_CONTROLLER) || defined(G3D_PANEL) || defined(RIGIDBOT_PANEL)
     #define ULTIPANEL
     #define NEWPANEL
   #endif
@@ -90,11 +90,6 @@
 
   // PANELOLU2 LCD with status LEDs, separate encoder and click inputs
   #ifdef LCD_I2C_PANELOLU2
-    // This uses the LiquidTWI2 library v1.2.3 or later ( https://github.com/lincomatic/LiquidTWI2 )
-    // Make sure the LiquidTWI2 directory is placed in the Arduino or Sketchbook libraries subdirectory.
-    // (v1.2.3 no longer requires you to define PANELOLU in the LiquidTWI2.h library header file)
-    // Note: The PANELOLU2 encoder click input can either be directly connected to a pin
-    //       (if BTN_ENC defined to != -1) or read through I2C (when BTN_ENC == -1).
     #define LCD_I2C_TYPE_MCP23017
     #define LCD_I2C_ADDRESS 0x20 // I2C Address of the port expander
     #define LCD_USE_I2C_BUZZER //comment out to disable buzzer on LCD
@@ -219,11 +214,7 @@
     #define HardwareSerial_h // trick to disable the standard HWserial
   #endif
 
-  #if (ARDUINO >= 100)
-    #include "Arduino.h"
-  #else
-    #include "WProgram.h"
-  #endif
+  #include "Arduino.h"
 
   /**
    * ENDSTOPPULLUPS
@@ -261,7 +252,6 @@
 
   /**
    * AUTOSET LOCATIONS OF LIMIT SWITCHES
-   * Added by ZetaPhoenix 09-15-2012
    */
   #ifdef MANUAL_HOME_POSITIONS  // Use manual limit switch locations
     #define X_HOME_POS MANUAL_X_HOME_POS
@@ -452,6 +442,7 @@
   #define HAS_MICROSTEPS_E0 (PIN_EXISTS(E0_MS1))
   #define HAS_MICROSTEPS_E1 (PIN_EXISTS(E1_MS1))
   #define HAS_MICROSTEPS_E2 (PIN_EXISTS(E2_MS1))
+  #define HAS_STEPPER_RESET (PIN_EXISTS(STEPPER_RESET))
   #define HAS_X_ENABLE (PIN_EXISTS(X_ENABLE))
   #define HAS_X2_ENABLE (PIN_EXISTS(X2_ENABLE))
   #define HAS_Y_ENABLE (PIN_EXISTS(Y_ENABLE))
@@ -507,6 +498,8 @@
   #if HAS_FAN
     #define WRITE_FAN(v) WRITE(FAN_PIN, v)
   #endif
+
+  #define HAS_BUZZER ((defined(BEEPER) && BEEPER >= 0) || defined(LCD_USE_I2C_BUZZER))
 
 #endif //CONFIGURATION_LCD
 #endif //CONDITIONALS_H
