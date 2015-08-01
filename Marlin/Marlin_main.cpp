@@ -1467,9 +1467,12 @@ static void setup_for_endstop_move(bool force_enable_endstop=false) {
     #elif ENABLED(FSR_BED_LEVELING)
 
       #if Z_RAISE_AFTER_PROBING > 0
+        float oldFeedrate = feedrate;
+        feedrate = XY_TRAVEL_SPEED;
         destination[Z_AXIS] = current_position[Z_AXIS] + Z_RAISE_AFTER_PROBING;
         prepare_move_raw(); // this will also set_current_to_destination
         st_synchronize();
+        feedrate = oldFeedrate;
       #endif
 
     #elif ENABLED(Z_PROBE_ALLEN_KEY)
